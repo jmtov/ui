@@ -17,9 +17,17 @@ import { Button, BottomSheet } from '@enrique/ui';
 
 Montar `<TooltipHost />` una vez en `App` (lo usan `Button` e `IconButton` con `label`).
 
+## Qué hay
+
+- **Componentes:** BottomSheet, Button, Chip (toggle), ConfirmDialog, IconButton, NavBar (sin router: recibe los tabs), PopoverMenu, SearchInput, StatusChip (lectura, con tonos), SwipeRow, TooltipHost.
+- **Capas:** `OverlayProvider` + `useOverlay()` (menús, confirmaciones, sheets).
+- **Hooks:** `useDrag`, `useTap`.
+- **Íconos:** no hay; se usa `@tabler/icons-solidjs` directo (peer dependency). `tokens.css` fija su grosor en 1.5.
+
 ## Reglas
 
 - Tokens y qué variable va en cada cosa: [`DESIGN.md`](DESIGN.md).
+- Los tests no pueden importar Tabler (Solid en servidor): lo que se testea no debe importar íconos.
 - Imports **relativos** dentro del paquete (nada de `@/`: chocaría con el alias de la app).
 - Un componente entra acá solo si lo usan las dos apps. Nada de dominio (finanzas, media).
 - Cambio visual → tag nuevo → bump en cada app.
