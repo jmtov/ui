@@ -29,3 +29,7 @@ Montar `<TooltipHost />` una vez en `App` (lo usan `Button` e `IconButton` con `
 ```
 bun run lint && bun run typecheck && bun test
 ```
+
+## Licencia
+
+[AGPL-3.0-or-later](LICENSE), igual que finanzas.

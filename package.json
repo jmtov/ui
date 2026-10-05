@@ -1,6 +1,6 @@
 {
   "name": "@enrique/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Componentes y tokens compartidos entre finanzas y ha-pwa (Solid + CSS Modules). Se publica como fuente: la app que lo consume lo compila.",
@@ -26,5 +26,6 @@
     "solid-js": "^1.9.3",
     "typescript": "^5.6.3",
     "vite": "^6.0.3"
-  }
+  },
+  "license": "AGPL-3.0-or-later"
 }
