@@ -65,3 +65,9 @@
   --transition-fn: cubic-bezier(0.25, 1, 0.5, 1);
   color-scheme: dark;
 }
+
+/* Los íconos de Tabler traen stroke-width 2; la app usa 1.5. El CSS le gana al
+   atributo, así que no hace falta pasar `stroke` en cada uso. */
+.tabler-icon {
+  stroke-width: 1.5;
+}

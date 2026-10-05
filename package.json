@@ -1,6 +1,6 @@
 {
   "name": "@enrique/ui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Componentes y tokens compartidos entre finanzas y ha-pwa (Solid + CSS Modules). Se publica como fuente: la app que lo consume lo compila.",
@@ -18,10 +18,12 @@
     "lint:fix": "biome check --write ."
   },
   "peerDependencies": {
-    "solid-js": "^1.9.3"
+    "solid-js": "^1.9.3",
+    "@tabler/icons-solidjs": "^3.49.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.12",
+    "@tabler/icons-solidjs": "^3.49.0",
     "@types/bun": "^1.1.14",
     "solid-js": "^1.9.3",
     "typescript": "^5.6.3",

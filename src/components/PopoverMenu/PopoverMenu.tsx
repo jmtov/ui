@@ -2,7 +2,7 @@
 // OverlayHost (uno solo para toda la app, colgado del botón que se toque) — así
 // una lista de 50 filas no monta 50 menús. Este componente es solo el trigger.
 
-import MoreIcon from '../../icons/MoreIcon';
+import { IconDots } from '@tabler/icons-solidjs';
 import { useOverlay } from '../../overlay/useOverlay';
 import IconButton from '../IconButton/IconButton';
 import styles from './PopoverMenu.module.css';
@@ -23,7 +23,7 @@ export default function PopoverMenu(props: PopoverMenuProps) {
           if (anchorRef) overlay.menu(anchorRef, () => props.options);
         }}
       >
-        <MoreIcon />
+        <IconDots />
       </IconButton>
     </span>
   );

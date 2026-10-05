@@ -15,10 +15,6 @@ export { default as SwipeRow } from './components/SwipeRow/SwipeRow';
 export { default as TooltipHost } from './components/TooltipHost/TooltipHost';
 export { useDrag } from './hooks/useDrag/useDrag';
 export { useTap } from './hooks/useTap/useTap';
-export { default as CheckIcon } from './icons/CheckIcon';
-export { default as MoreIcon } from './icons/MoreIcon';
-export { default as SearchIcon } from './icons/SearchIcon';
-export { default as XIcon } from './icons/XIcon';
 export { default as OverlayProvider } from './overlay/OverlayProvider';
 export type {
   ConfirmOptions,

@@ -2,9 +2,10 @@
 // (lo cuelga del botón que lo abrió, sin JS de posicionamiento). Es un popover
 // "manual": cierra con tap afuera y Esc a través del store, no del navegador,
 // para no cerrar por accidente otras capas abiertas debajo.
+
+import { IconCheck } from '@tabler/icons-solidjs';
 import { createEffect, For, onCleanup, onMount, Show } from 'solid-js';
 import type { MenuOption } from '../../../components/PopoverMenu/PopoverMenu.types';
-import CheckIcon from '../../../icons/CheckIcon';
 import { menuAnchorName } from '../../overlay.constants';
 import type { MenuLayer } from '../../overlay.types';
 import styles from './MenuLayerView.module.css';
@@ -93,7 +94,7 @@ export default function MenuLayerView(props: { layer: MenuLayer }) {
                   classList={{ [styles['item__check--hidden']]: !opt.active }}
                   aria-hidden="true"
                 >
-                  <CheckIcon />
+                  <IconCheck />
                 </span>
               </Show>
               <Show when={opt.icon}>

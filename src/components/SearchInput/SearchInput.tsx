@@ -1,7 +1,7 @@
 // Campo de búsqueda con lupa y botón para limpiar. Tonto.
+
+import { IconSearch, IconX } from '@tabler/icons-solidjs';
 import { createEffect, Show } from 'solid-js';
-import SearchIcon from '../../icons/SearchIcon';
-import XIcon from '../../icons/XIcon';
 import styles from './SearchInput.module.css';
 import type { SearchInputProps } from './SearchInput.types';
 
@@ -14,7 +14,7 @@ export default function SearchInput(props: SearchInputProps) {
   return (
     <div class={styles.field}>
       <span class={styles.icon}>
-        <SearchIcon />
+        <IconSearch />
       </span>
       <input
         class={styles.input}
@@ -34,7 +34,7 @@ export default function SearchInput(props: SearchInputProps) {
           aria-label={`Limpiar ${(props.label ?? 'búsqueda').toLowerCase()}`}
           onClick={() => props.onInput('')}
         >
-          <XIcon />
+          <IconX />
         </button>
       </Show>
     </div>
