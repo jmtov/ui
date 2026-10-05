@@ -84,7 +84,10 @@ export default function MenuLayerView(props: { layer: MenuLayer }) {
             <button
               type="button"
               class={styles.item}
-              classList={{ [styles['item--active']]: !!opt.active }}
+              classList={{
+                [styles['item--active']]: !!opt.active,
+                [styles['item--danger']]: opt.tone === 'danger',
+              }}
               disabled={opt.disabled}
               onClick={() => select(opt)}
             >
