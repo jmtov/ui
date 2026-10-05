@@ -1,0 +1,67 @@
+.chip {
+  --chip-color: var(--muted);
+  --chip-border: var(--border);
+  --chip-bg: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--chip-border);
+  border-radius: 2rem;
+  background: var(--chip-bg);
+  color: var(--chip-color);
+  font-size: var(--font-size-xs);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.chip--subtle {
+  --chip-border: transparent;
+  --chip-bg: var(--surface-inset);
+}
+
+.chip--ok {
+  --chip-color: var(--success);
+}
+
+.chip--warn {
+  --chip-color: var(--warning);
+}
+
+.chip--bad {
+  --chip-color: var(--danger);
+}
+
+.chip--ok,
+.chip--warn,
+.chip--bad {
+  --chip-border: color-mix(in srgb, var(--chip-color) 45%, var(--line));
+  --chip-bg: color-mix(in srgb, var(--chip-color) 12%, transparent);
+}
+
+.icon {
+  display: flex;
+}
+
+.icon svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.label {
+  text-transform: capitalize;
+}
+
+/* el valor se destaca; en un chip con tono hereda su color */
+.value {
+  color: var(--fg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip--ok .value,
+.chip--warn .value,
+.chip--bad .value {
+  color: inherit;
+}
