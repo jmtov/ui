@@ -1,0 +1,20 @@
+/* `touch-action: none`: un elemento fijo no debe empezar un scroll de la página
+   si el dedo se desliza un par de píxeles al tocar; sin esto iOS lo toma por un
+   arrastre y cancela el `click` (a veces sí, a veces no). Tampoco se selecciona
+   texto ni sale el menú de pulsación larga. */
+.navbar {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 4rem;
+  background: var(--surface-glass);
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: var(--default-blur);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+}

@@ -6,6 +6,11 @@ export { default as Button } from './components/Button/Button';
 export { default as Chip } from './components/Chip/Chip';
 export { default as ConfirmDialog } from './components/ConfirmDialog/ConfirmDialog';
 export { default as IconButton } from './components/IconButton/IconButton';
+export { default as NavBar } from './components/NavBar/NavBar';
+export type {
+  NavBarProps,
+  NavBarTab,
+} from './components/NavBar/NavBar.types';
 export { default as PopoverMenu } from './components/PopoverMenu/PopoverMenu';
 export type {
   MenuOption,
