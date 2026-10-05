@@ -1,0 +1,241 @@
+/* Root = popover invisible a pantalla completa (top layer, Esc y
+   light-dismiss del navegador; el [popover] ya es position: fixed). display
+   discreto para animar la salida. */
+.bsheet-root {
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  transition:
+    display 260ms allow-discrete,
+    overlay 260ms allow-discrete;
+
+  --content-width: clamp(400px, 80vw, 500px);
+}
+.bsheet-root:not(:popover-open) {
+  display: none;
+}
+/* Scrim y panel comparten la única celda de una grilla: el panel va abajo y se
+   pinta sobre el scrim (va después en el DOM), sin posiciones absolutas. */
+.bsheet-root:popover-open {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+}
+
+/* Con un sheet abierto la página de atrás no scrollea (sin JS: el
+   position:fixed en el body que se usaba antes corría el popover en iOS). */
+:global(body):has(.bsheet-root:popover-open) {
+  overflow: hidden;
+}
+
+/* Scrim propio (el ::backdrop del popover no captura clics en WebKit). */
+.bsheet__scrim {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.45);
+  /* un gesto sobre el fondo no mueve la página de atrás */
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.bsheet-root:popover-open .bsheet__scrim {
+  opacity: 1;
+}
+
+.bsheet {
+  grid-area: 1 / 1;
+  align-self: end;
+  justify-self: center;
+  width: 100%;
+  max-width: var(--content-width);
+  max-height: calc(100vh - env(safe-area-inset-top, 0px) - 6rem);
+  background: var(--surface-glass-strong);
+  backdrop-filter: var(--default-blur);
+  color: var(--fg);
+  border-radius: 2rem 2rem 0 0;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(110%);
+  transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Ocupa toda la pantalla salvo un margen arriba (affordance de "hay algo
+   detrás, se puede volver") — % contra .bsheet-root (fixed, height:100%),
+   no vh/dvh: ese ancestro ya resuelve el viewport real, sin los quirks de
+   la barra dinámica de Safari (mismo criterio que sonos-pwa, ver su
+   NowPlayingSheet.css). */
+.bsheet--fullscreen {
+  height: calc(100vh - env(safe-area-inset-top, 0px) - 2rem);
+  max-height: calc(100vh - env(safe-area-inset-top, 0px) - 2rem);
+}
+
+.bsheet-root:popover-open .bsheet {
+  /* `none`, no `translateY(0)` — cualquier transform, aunque sea un
+     no-op visual, crea containing block para los `position: fixed`
+     descendientes. El menú "..." del header (MediaPlayerOptionsMenu) usa
+     position: fixed + anchor positioning; con containing block = este
+     panel (transformado), calculaba mal su posición y
+     terminaba invisible/mal ubicado en vez de anclado al botón. */
+  transform: none;
+}
+@starting-style {
+  .bsheet-root:popover-open .bsheet {
+    transform: translateY(110%);
+  }
+}
+.bsheet--dragging {
+  transition: none;
+}
+
+.bsheet__handle {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  padding-bottom: 1rem;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.bsheet__grabber {
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.bsheet__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.bsheet__icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: var(--surface-page);
+  color: var(--muted);
+}
+.bsheet__icon svg {
+  width: 1.5rem;
+  height: auto;
+}
+.bsheet__titles {
+  min-width: 0;
+}
+.bsheet__aside {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.bsheet__title {
+  margin: 0;
+  font-size: var(--font-size-md);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bsheet__subtitle {
+  margin: 2px 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bsheet__close {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-page);
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+}
+
+.bsheet__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* al llegar al borde, el scroll no pasa a la página de atrás */
+  overscroll-behavior: contain;
+  padding: 0 var(--page-padding-x) 1rem;
+}
+
+/* Con un footer pegado abajo (FormActions sticky), el footer trae el espacio de
+   abajo y el área segura: el body no suma el suyo. */
+.bsheet__body:has([data-sticky-footer]) {
+  padding-bottom: 0;
+}
+
+/* Teclado abierto = un campo de texto enfocado (sin JS). iOS lo dibuja encima
+   del sheet sin achicarlo: el body deja espacio abajo (~lo que mide el teclado)
+   para poder scrollear el contenido por encima, y el footer deja de ir pegado
+   abajo, porque quedaría detrás del teclado.
+   Solo en pantallas táctiles: con mouse y teclado físico no hay teclado en
+   pantalla, y ese espacio dejaba el sheet con un vacío enorme abajo. */
+@media (pointer: coarse) {
+  .bsheet__body:has(
+    :is(
+        input:not(
+          [type="color"],
+          [type="date"],
+          [type="datetime-local"],
+          [type="checkbox"],
+          [type="radio"]
+        ),
+        textarea
+      ):focus
+  ) {
+    padding-bottom: 45vh;
+  }
+
+  .bsheet__body:has(
+      :is(
+          input:not(
+            [type="color"],
+            [type="date"],
+            [type="datetime-local"],
+            [type="checkbox"],
+            [type="radio"]
+          ),
+          textarea
+        ):focus
+    )
+    [data-sticky-footer] {
+    position: static;
+  }
+}
+
+/* El handle ya trae su propio padding-bottom — este top duplicaba el
+   espacio y, al scrollear contenido largo (ej. Cola), se veía como un
+   padding raro/inconsistente contra el header. */
+.bsheet--fullscreen .bsheet__body {
+  padding-top: 0;
+}

@@ -1,0 +1,67 @@
+:root {
+  --bg: #0b0f14;
+  --fg: #e6edf3;
+  /*--bg: #e6edf3;
+  --fg: #0b0f14;*/
+  --muted: color-mix(in srgb, var(--fg) 60%, var(--bg));
+  --border: color-mix(in srgb, var(--bg), var(--fg) 10%);
+  --accent: #fafafa;
+  --warning: #e0a325;
+  --success: #3fb950;
+  --danger: #e0525c;
+  /* Tamaño del texto que elige el usuario (Configuración › Apariencia): 1 = el
+     de fábrica. Todos los tamaños de abajo lo multiplican. */
+  --text-scale: 1;
+  --font-size-xxs: calc(0.625rem * var(--text-scale));
+  --font-size-xs: calc(0.75rem * var(--text-scale));
+  --font-size-sm: calc(0.875rem * var(--text-scale));
+  --font-size-md: calc(1rem * var(--text-scale));
+  --font-size-lg: calc(1.125rem * var(--text-scale));
+  --font-size-xl: calc(1.25rem * var(--text-scale));
+  /* Escalas relativas (em): achican respecto al texto que las rodea, así
+     quedan bien sea cual sea el contexto. */
+  --font-scale-detail: 0.7em;
+  --font-scale-secondary: 0.8em;
+  --font-scale-code: 0.5em;
+  /* Tokens de ha-pwa, portados para BottomSheet (mismo look). */
+  --line: color-mix(in srgb, var(--fg), transparent 95%);
+  /* Superficies: los fondos de la app, por capa. Todo fondo sale de uno de estos;
+     no se escribe un color suelto en un componente.
+       --surface-page     la página (el --bg)
+       --surface          lo que se levanta de la página: tarjetas, grupos de
+                          filas, campos y controles
+       --surface-glass    lo que flota y deja ver lo de abajo, con blur: header,
+                          navbar y menús; el -strong es el del bottom sheet
+       --surface-inset    lo que va dentro de una superficie: mosaicos de ícono
+       --surface-hover    el hover o el toque sobre cualquiera; el -strong, más
+                          marcado (botones redondos) */
+  --surface-page: var(--bg);
+  /* Cuánto de --surface se ve; el resto es transparencia (100% = opaco). */
+  --surface-opacity: 80%;
+  --surface: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--surface-page), var(--fg) 3%) var(--surface-opacity),
+    transparent
+  );
+  --surface-glass: color-mix(in srgb, var(--surface-page), transparent 70%);
+  --surface-glass-strong: color-mix(
+    in srgb,
+    var(--surface-page),
+    transparent 10%
+  );
+  --surface-inset: color-mix(in srgb, var(--fg) 5%, transparent);
+  --surface-hover: color-mix(in srgb, var(--fg) 5%, transparent);
+  --surface-hover-strong: color-mix(in srgb, var(--fg) 10%, transparent);
+  --default-blur: blur(0.5rem);
+  --bottom-padding: 1.25rem;
+  /* El margen a los lados de las pantallas: lo usan los encabezados, listas,
+     tarjetas y la pila de cards. Cambiarlo acá lo cambia en toda la app. */
+  --page-padding-x: 1rem;
+  /* Escala de z-index — mismo criterio que ha-pwa: todo lo que flota sobre
+     la página usa una de estas, nunca un número suelto. Huecos de a 10. */
+  --z-sticky: 10;
+  --z-fixed: 20;
+
+  --transition-fn: cubic-bezier(0.25, 1, 0.5, 1);
+  color-scheme: dark;
+}

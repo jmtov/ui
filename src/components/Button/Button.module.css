@@ -1,0 +1,132 @@
+/* Los :hover van solo en dispositivos con hover real (`@media (hover: hover)`):
+   en el celular Safari deja el :hover "pegado" tras un toque y, si eso cambia
+   cómo se ve el elemento, se come el primer toque (hay que tocar dos veces
+   para que dispare el click). */
+.btn {
+  /* no se encoge dentro de una fila flex: el texto no se recorta con "…" */
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  border: 0;
+  border-radius: 2rem;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  text-align: center;
+  /* un long-press pide el tooltip (ver IconButton) */
+  -webkit-touch-callout: none;
+  overflow: hidden;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.1s;
+}
+
+.btn.btn--solid {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn--outline {
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+/* estado sostenido (toggle), mismo lenguaje que .icon-btn--on en ha-pwa */
+.btn--active {
+  border-color: var(--success);
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 15%, transparent);
+}
+
+.btn.btn--xs {
+  padding: calc(0.125rem * var(--text-scale)) calc(0.25rem * var(--text-scale));
+  font-size: var(--font-size-xs);
+}
+
+.btn--sm {
+  padding: calc(0.25rem * var(--text-scale)) calc(0.5rem * var(--text-scale));
+  font-size: var(--font-size-sm);
+}
+
+.btn--md {
+  height: calc(3rem * var(--text-scale));
+  min-width: calc(3rem * var(--text-scale));
+  padding: calc(0.75rem * var(--text-scale)) calc(1rem * var(--text-scale));
+  font-size: var(--font-size-md);
+}
+
+/* variante "text": el look de los tabs — transparente, sin borde, bordes menos
+   redondos. active = seleccionado (fondo neutro, no el verde de --active). */
+.btn--text {
+  border: 1px solid transparent;
+  border-radius: 2rem;
+  padding: calc(6px * var(--text-scale)) calc(14px * var(--text-scale));
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (hover: hover) {
+  .btn--text:hover {
+    background: var(--surface-hover);
+  }
+}
+
+.btn--text.btn--active {
+  background: var(--surface-page);
+  border-color: transparent;
+  color: var(--fg);
+}
+
+/* tono "danger": lo que elimina o descarta, en rojo. Va aparte de la variante
+   (outline/text/solid) porque se combina con cualquiera — los selectores
+   compuestos ganan en especificidad a los de cada variante. */
+.btn--danger.btn--outline {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+@media (hover: hover) {
+  .btn--danger.btn--outline:hover:not(:disabled),
+  .btn--danger.btn--text:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--danger) 12%, transparent);
+  }
+}
+
+.btn--danger.btn--text {
+  color: var(--danger);
+}
+
+.btn.btn--danger.btn--solid {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+
+.btn__icon svg {
+  width: calc(1rem * var(--text-scale));
+  height: calc(1rem * var(--text-scale));
+}
+
+.btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

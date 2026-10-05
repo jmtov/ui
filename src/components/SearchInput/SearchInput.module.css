@@ -1,0 +1,61 @@
+/* Mismo lenguaje que TextField: pill, --card, --line. */
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 2rem;
+  background-color: var(--surface-glass);
+  -webkit-backdrop-filter: var(--default-blur);
+  backdrop-filter: var(--default-blur);
+}
+
+.icon {
+  position: absolute;
+  left: 0.9rem;
+  display: inline-flex;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 2rem;
+  color: var(--fg);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  background-color: transparent;
+  appearance: none;
+}
+
+/* el navegador dibuja su propia "x" en type=search; se usa la de arriba */
+.input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.clear {
+  position: absolute;
+  right: 0.6rem;
+  display: inline-flex;
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.clear svg {
+  width: 1rem;
+  height: 1rem;
+}

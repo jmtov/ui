@@ -1,0 +1,108 @@
+.menu {
+  position: fixed;
+  margin: 4px 0 0;
+  /* Debajo del trigger, alineado por el borde derecho (span hacia la
+     izquierda) — el trigger suele vivir pegado a la derecha de la fila. */
+  position-area: bottom span-left;
+  position-try-fallbacks: flip-block;
+  min-width: 12rem;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  background: var(--surface-glass);
+  backdrop-filter: var(--default-blur);
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+
+  /* Entra y sale con un fade + escala que nace en la esquina del botón (el
+     menú cuelga de su borde derecho). `display`/`overlay` discretos: el
+     popover se mantiene visible mientras dura la salida. */
+  transform-origin: top right;
+  transition:
+    opacity 140ms var(--transition-fn),
+    scale 140ms var(--transition-fn),
+    display 140ms allow-discrete,
+    overlay 140ms allow-discrete;
+}
+
+.menu:not(:popover-open) {
+  opacity: 0;
+  scale: 0.96;
+}
+
+@starting-style {
+  .menu:popover-open {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    transition: none;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 2rem;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.item__icon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.item__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.item__check {
+  display: flex;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.item__check svg {
+  width: 18px;
+  height: 18px;
+}
+
+.item__check--hidden {
+  visibility: hidden;
+}
+
+.item:hover {
+  background: var(--surface-hover);
+}
+
+.item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.item:disabled:hover {
+  background: none;
+}
+
+.item--active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.divider {
+  height: 1px;
+  margin: 4px 0.25rem;
+  background: var(--line);
+}

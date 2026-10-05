@@ -1,0 +1,45 @@
+/* Encima del botón, centrado; debajo si el botón está arriba de todo (el header:
+   ahí arriba queda bajo la barra de estado). */
+.tooltip {
+  position: fixed;
+  position-anchor: --tooltip-anchor;
+  position-area: top;
+  position-try-fallbacks: flip-block;
+  margin: 0.5rem 0;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-glass-strong);
+  -webkit-backdrop-filter: var(--default-blur);
+  backdrop-filter: var(--default-blur);
+  color: var(--fg);
+  font-size: var(--font-size-xs);
+  line-height: 1.25;
+  white-space: nowrap;
+  pointer-events: none;
+
+  transition:
+    opacity 140ms var(--transition-fn),
+    display 140ms allow-discrete,
+    overlay 140ms allow-discrete;
+}
+
+.tooltip[data-side="bottom"] {
+  position-area: bottom;
+}
+
+.tooltip:not(:popover-open) {
+  opacity: 0;
+}
+
+@starting-style {
+  .tooltip:popover-open {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none;
+  }
+}

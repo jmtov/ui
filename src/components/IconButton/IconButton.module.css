@@ -1,0 +1,108 @@
+/* Los :hover van solo en dispositivos con hover real (`@media (hover: hover)`):
+   en el celular Safari deja el :hover "pegado" tras un toque y, si eso cambia
+   cómo se ve el elemento, se come el primer toque (hay que tocar dos veces
+   para que dispare el click). */
+.icon-btn {
+  /* no se aplasta dentro de una fila flex: sigue siendo un círculo */
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  color: var(--fg);
+  cursor: pointer;
+  /* un long-press pide el tooltip: sin esto iOS lo toma por selección de texto o
+     por el menú de la imagen */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border 0.15s,
+    transform 0.1s;
+}
+.icon-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+.icon-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.icon-btn--filled {
+  border: 1px solid var(--line);
+  background: var(--surface-glass);
+  backdrop-filter: var(--default-blur);
+}
+
+@media (hover: hover) {
+  .icon-btn--filled:hover {
+    transform: scale(1.1);
+  }
+}
+
+.icon-btn--ghost {
+  background: transparent;
+  border: none;
+}
+
+@media (hover: hover) {
+  .icon-btn--ghost:hover:not(:disabled) {
+    background: var(--surface-hover-strong);
+  }
+}
+
+.icon-btn svg {
+  width: auto;
+  height: 50%;
+  pointer-events: none;
+}
+
+.icon-btn--xxs {
+  width: calc(1.5rem * var(--text-scale));
+  height: calc(1.5rem * var(--text-scale));
+  padding: 0;
+}
+
+.icon-btn-xxs svg {
+  height: 100;
+}
+
+.icon-btn--xs {
+  width: calc(2rem * var(--text-scale));
+  height: calc(2rem * var(--text-scale));
+  padding: calc(0.25rem * var(--text-scale));
+}
+.icon-btn--xs svg {
+  height: 100%;
+}
+.icon-btn--sm {
+  width: calc(2.5rem * var(--text-scale));
+  height: calc(2.5rem * var(--text-scale));
+  padding: calc(0.06rem * var(--text-scale));
+}
+.icon-btn--md {
+  width: calc(3rem * var(--text-scale));
+  height: calc(3rem * var(--text-scale));
+  padding: calc(0.12rem * var(--text-scale));
+}
+.icon-btn--lg {
+  width: calc(4rem * var(--text-scale));
+  height: calc(4rem * var(--text-scale));
+  padding: calc(0.25rem * var(--text-scale));
+}
+
+.icon-btn--auto-width {
+  width: auto;
+}
+
+.icon-btn--auto-height {
+  height: auto;
+}
+
+.icon-btn--on {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent), transparent 90%);
+}
