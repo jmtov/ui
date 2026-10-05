@@ -1,0 +1,68 @@
+.header {
+  margin-bottom: 1rem;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+}
+
+.header--lg {
+  padding: 1rem 1rem 0;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+}
+
+.header--sm {
+  padding: 0.5rem 0.5rem 1rem;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+}
+
+.header.header--sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed);
+}
+
+/* Fondo/blur aislados en un pseudo-elemento — animar su opacity es cosa del
+   compositor (barato); animar background-color/backdrop-filter directo no lo
+   es. `z-index: -1` lo manda detrás de los hijos sin salirse del stacking
+   context del header (ya tiene z-index propio arriba). */
+.header.header--sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--surface-glass);
+  -webkit-backdrop-filter: var(--default-blur);
+  backdrop-filter: var(--default-blur);
+  border-bottom: 1px solid var(--line);
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.header.header--transparent::before {
+  opacity: 0;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title {
+  /* toma el espacio libre: lo que venga a la derecha queda pegado al borde,
+     haya o no flecha atrás. */
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title--lg {
+  font-size: var(--title-size-lg);
+}
+
+.title--sm {
+  font-size: var(--title-size-sm);
+}

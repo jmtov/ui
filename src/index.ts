@@ -16,6 +16,11 @@ export type {
   MenuOption,
   PopoverMenuProps,
 } from './components/PopoverMenu/PopoverMenu.types';
+export { default as ScreenHeader } from './components/ScreenHeader/ScreenHeader';
+export type {
+  ScreenHeaderProps,
+  ScreenHeaderSize,
+} from './components/ScreenHeader/ScreenHeader.types';
 export { default as SearchInput } from './components/SearchInput/SearchInput';
 export { default as StatusChip } from './components/StatusChip/StatusChip';
 export type {

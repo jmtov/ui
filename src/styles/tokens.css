@@ -18,6 +18,9 @@
   --font-size-md: calc(1rem * var(--text-scale));
   --font-size-lg: calc(1.125rem * var(--text-scale));
   --font-size-xl: calc(1.25rem * var(--text-scale));
+  /* Títulos de pantalla (ScreenHeader): «lg» nivel superior, «sm» detalle. */
+  --title-size-lg: calc(var(--font-size-xl) * 2);
+  --title-size-sm: var(--font-size-xl);
   /* Escalas relativas (em): achican respecto al texto que las rodea, así
      quedan bien sea cual sea el contexto. */
   --font-scale-detail: 0.7em;

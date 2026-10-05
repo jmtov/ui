@@ -19,7 +19,7 @@ Montar `<TooltipHost />` una vez en `App` (lo usan `Button` e `IconButton` con `
 
 ## Qué hay
 
-- **Componentes:** BottomSheet, Button, Chip (toggle), ConfirmDialog, IconButton, NavBar (sin router: recibe los tabs), PopoverMenu, SearchInput, StatusChip (lectura, con tonos), SwipeRow, TooltipHost.
+- **Componentes:** BottomSheet, Button, Chip (toggle), ConfirmDialog, IconButton, NavBar (sin router: recibe los tabs), PopoverMenu, ScreenHeader (título + volver + derecha, sticky con blur), SearchInput, StatusChip (lectura, con tonos), SwipeRow, TooltipHost.
 - **Capas:** `OverlayProvider` + `useOverlay()` (menús, confirmaciones, sheets).
 - **Hooks:** `useDrag`, `useTap`.
 - **Íconos:** no hay; se usa `@tabler/icons-solidjs` directo (peer dependency). `tokens.css` fija su grosor en 1.5.
