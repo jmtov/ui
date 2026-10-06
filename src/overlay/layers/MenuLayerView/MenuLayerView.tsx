@@ -105,7 +105,7 @@ export default function MenuLayerView(props: { layer: MenuLayer }) {
                   {opt.icon}
                 </span>
               </Show>
-              {opt.label}
+              <span class={styles.item__label}>{opt.label}</span>
             </button>
           </>
         )}

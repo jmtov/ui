@@ -6,6 +6,9 @@
   position-area: bottom span-left;
   position-try-fallbacks: flip-block;
   min-width: 12rem;
+  /* Tope de ancho: una opción con un texto largo (ej. una lista de artistas)
+     no puede estirar el menú de borde a borde; el texto se corta con «…». */
+  max-width: min(20rem, calc(100vw - 2rem));
   padding: 0.5rem;
   border: 1px solid var(--line);
   border-radius: 1.5rem;
@@ -56,6 +59,13 @@
   font-size: var(--font-size-sm);
   text-align: left;
   cursor: pointer;
+}
+
+.item__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .item__icon {
