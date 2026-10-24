@@ -17,6 +17,8 @@ import styles from './BottomSheet.module.css';
 // clics fiable en WebKit.
 // Copiado de ha-pwa (components/BottomSheet), mismo patrón base.
 
+const KEYBOARD_MIN_PX = 100;
+
 export default function BottomSheet(props: {
   open: boolean;
   onClose: () => void;
@@ -41,6 +43,28 @@ export default function BottomSheet(props: {
     onDismiss: () => props.onClose(),
     onStart: (e) =>
       !(e.target as HTMLElement).closest(`.${styles.bsheet__aside}`),
+  });
+
+  // Cuánto tapa el teclado en pantalla: la diferencia entre el viewport de
+  // layout y el visual. iOS no achica el layout al abrirlo, pero sí el visual.
+  // Solo se mide con el sheet abierto; por debajo de KEYBOARD_MIN_PX es ruido
+  // (barra de URL, zoom), no un teclado.
+  const [keyboard, setKeyboard] = createSignal(0);
+  createEffect(() => {
+    const vv = window.visualViewport;
+    if (!props.open || !vv) return;
+    const update = () => {
+      const covered = window.innerHeight - vv.height - vv.offsetTop;
+      setKeyboard(covered > KEYBOARD_MIN_PX ? Math.round(covered) : 0);
+    };
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    onCleanup(() => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+      setKeyboard(0);
+    });
   });
 
   // Con el sheet abierto, Tab no puede salir hacia lo que hay detrás.
@@ -96,6 +120,8 @@ export default function BottomSheet(props: {
       popover="manual"
       class={styles['bsheet-root']}
       aria-label={props.title}
+      data-keyboard={keyboard() > 0 ? '' : undefined}
+      style={keyboard() > 0 ? { '--kb': `${keyboard()}px` } : undefined}
     >
       <button
         type="button"

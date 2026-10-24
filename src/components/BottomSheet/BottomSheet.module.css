@@ -194,43 +194,18 @@
   padding-bottom: 0;
 }
 
-/* Teclado abierto = un campo de texto enfocado (sin JS). iOS lo dibuja encima
-   del sheet sin achicarlo: el body deja espacio abajo (~lo que mide el teclado)
-   para poder scrollear el contenido por encima, y el footer deja de ir pegado
-   abajo, porque quedaría detrás del teclado.
-   Solo en pantallas táctiles: con mouse y teclado físico no hay teclado en
-   pantalla, y ese espacio dejaba el sheet con un vacío enorme abajo. */
-@media (pointer: coarse) {
-  .bsheet__body:has(
-    :is(
-        input:not(
-          [type="color"],
-          [type="date"],
-          [type="datetime-local"],
-          [type="checkbox"],
-          [type="radio"]
-        ),
-        textarea
-      ):focus
-  ) {
-    padding-bottom: 45vh;
-  }
+/* Teclado abierto: el sheet mide cuánto tapa de verdad (visualViewport, ver
+   BottomSheet.tsx) y lo deja en --kb + data-keyboard. iOS lo dibuja encima sin
+   achicar el sheet: el body deja ese espacio abajo para poder scrollear el
+   contenido por encima, y el footer deja de ir pegado abajo, porque quedaría
+   detrás del teclado. Sin teclado visible (mouse, teclado físico, o campo
+   enfocado con el teclado ya cerrado) no se agrega nada. */
+.bsheet-root[data-keyboard] .bsheet__body {
+  padding-bottom: var(--kb);
+}
 
-  .bsheet__body:has(
-      :is(
-          input:not(
-            [type="color"],
-            [type="date"],
-            [type="datetime-local"],
-            [type="checkbox"],
-            [type="radio"]
-          ),
-          textarea
-        ):focus
-    )
-    [data-sticky-footer] {
-    position: static;
-  }
+.bsheet-root[data-keyboard] [data-sticky-footer] {
+  position: static;
 }
 
 /* El handle ya trae su propio padding-bottom — este top duplicaba el
