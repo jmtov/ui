@@ -112,7 +112,9 @@ export default function Tuning() {
           active={slow()}
           onClick={() => {
             setSlow(!slow());
-            set('--sheet-duration', slow() ? '500ms' : '3000ms');
+            slow()
+              ? root.style.removeProperty('--sheet-duration')
+              : set('--sheet-duration', '3000ms');
           }}
         >
           Cámara lenta (3 s)
@@ -122,8 +124,10 @@ export default function Tuning() {
           active={reduced()}
           onClick={() => {
             setReduced(!reduced());
-            set('--sheet-duration', reduced() ? '500ms' : '0ms');
-            set('--menu-duration', reduced() ? '140ms' : '0ms');
+            for (const name of ['--sheet-duration', '--menu-duration']) {
+              if (reduced()) root.style.removeProperty(name);
+              else set(name, '0ms');
+            }
           }}
         >
           Simular «reducir movimiento»

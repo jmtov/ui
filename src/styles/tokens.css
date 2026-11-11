@@ -71,14 +71,14 @@
      scrim usan las mismas, para que se muevan como un solo gesto; el desmontaje
      de la capa (overlay.store) lee `--sheet-duration` de acá, así que cambiarla
      en este lugar es todo lo que hace falta. La curva frena fuerte al final: con
-     poca duración se siente brusca, por eso 500ms. */
-  --sheet-duration: 500ms;
+     poca duración se siente brusca. */
+  --sheet-duration: 400ms;
   --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --sheet-ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
   /* La salida dura esta fracción de la entrada (0.5 = la mitad): irse se siente
      más ágil que llegar. */
   --sheet-exit-ratio: 0.5;
-  --menu-duration: 140ms;
+  --menu-duration: 350ms;
   color-scheme: dark;
 }
 

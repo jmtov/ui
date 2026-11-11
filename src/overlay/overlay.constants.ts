@@ -3,7 +3,7 @@
 // `--sheet-exit-ratio`, en tokens.css, son la única fuente) más un margen. Se lee del CSS en cada cierre, así que
 // tunearla ahí basta, y con «reducir movimiento» (0ms) se desmonta al instante.
 const CLOSE_GRACE_MS = 40;
-const DEFAULT_SHEET_MS = 500;
+const DEFAULT_SHEET_MS = 400;
 const DEFAULT_EXIT_RATIO = 0.5;
 
 export function closeMs(): number {
