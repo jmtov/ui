@@ -79,6 +79,33 @@
      más ágil que llegar. */
   --sheet-exit-ratio: 0.5;
   --menu-duration: 350ms;
+
+  /* Tema de forma. Cada app puede cambiarlos después de importar este archivo
+     (p. ej. `:root { --radius-action: 0 }` para botones cuadrados).
+       --radius-action    botones, chips, campos de búsqueda, ítems de menú:
+                          todo lo que se toca. Con 2rem los chicos son píldoras.
+       --radius-menu      el contenedor de un menú
+       --radius-surface   hojas inferiores y la barra de navegación
+       --radius-pill      lo que siempre es una píldora (asa del sheet, tooltip)
+     Un componente puede salirse del rol con su propia variable:
+     --button-radius, --icon-button-radius, --chip-radius, --status-chip-radius,
+     --search-radius, --menu-radius, --menu-item-radius, --sheet-radius,
+     --sheet-icon-radius, --sheet-close-radius, --navbar-radius,
+     --tooltip-radius (ver README, «Tema»). */
+  --radius-action: 2rem;
+  --radius-menu: 1.5rem;
+  --radius-surface: 2rem;
+  --radius-pill: 999px;
+
+  /* Espaciado: una escala (en múltiplos de 0.25rem) y un factor para estirarla
+     o comprimirla en toda la app (como --text-scale con el texto). */
+  --space-scale: 1;
+  --space-1: calc(0.25rem * var(--space-scale));
+  --space-2: calc(0.5rem * var(--space-scale));
+  --space-3: calc(0.75rem * var(--space-scale));
+  --space-4: calc(1rem * var(--space-scale));
+  --space-5: calc(1.25rem * var(--space-scale));
+  --space-6: calc(1.5rem * var(--space-scale));
   color-scheme: dark;
 }
 

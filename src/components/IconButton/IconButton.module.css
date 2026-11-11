@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--icon-button-radius, var(--radius-action));
   color: var(--fg);
   cursor: pointer;
   /* un long-press pide el tooltip: sin esto iOS lo toma por selección de texto o
@@ -73,7 +73,7 @@
 .icon-btn--xs {
   width: calc(2rem * var(--text-scale));
   height: calc(2rem * var(--text-scale));
-  padding: calc(0.25rem * var(--text-scale));
+  padding: calc(var(--space-1) * var(--text-scale));
 }
 .icon-btn--xs svg {
   height: 100%;
@@ -81,17 +81,17 @@
 .icon-btn--sm {
   width: calc(2.5rem * var(--text-scale));
   height: calc(2.5rem * var(--text-scale));
-  padding: calc(0.06rem * var(--text-scale));
+  padding: calc(var(--space-1) / 4 * var(--text-scale));
 }
 .icon-btn--md {
   width: calc(3rem * var(--text-scale));
   height: calc(3rem * var(--text-scale));
-  padding: calc(0.12rem * var(--text-scale));
+  padding: calc(var(--space-1) / 2 * var(--text-scale));
 }
 .icon-btn--lg {
   width: calc(4rem * var(--text-scale));
   height: calc(4rem * var(--text-scale));
-  padding: calc(0.25rem * var(--text-scale));
+  padding: calc(var(--space-1) * var(--text-scale));
 }
 
 .icon-btn--auto-width {

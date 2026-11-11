@@ -3,7 +3,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: 2rem;
+  border-radius: var(--search-radius, var(--radius-action));
   background-color: var(--surface-glass);
   -webkit-backdrop-filter: var(--default-blur);
   backdrop-filter: var(--default-blur);
@@ -25,9 +25,9 @@
 .input {
   flex: 1;
   min-width: 0;
-  padding: 0.5rem 2.25rem;
+  padding: var(--space-2) calc(var(--space-1) * 9);
   border: 1px solid var(--line);
-  border-radius: 2rem;
+  border-radius: var(--search-radius, var(--radius-action));
   color: var(--fg);
   font: inherit;
   font-size: var(--font-size-sm);
@@ -48,7 +48,7 @@
   position: absolute;
   right: 0.6rem;
   display: inline-flex;
-  padding: 0.25rem;
+  padding: var(--space-1);
   border: none;
   background: none;
   color: var(--muted);

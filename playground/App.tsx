@@ -1,12 +1,14 @@
 import { createSignal, For, type JSX } from 'solid-js';
 import { Button } from '../src';
 import { log } from './log';
+import Components from './scenarios/components';
 import Confirms from './scenarios/confirms';
 import Menus from './scenarios/menus';
 import Sheets from './scenarios/sheets';
 import Tuning from './Tuning';
 
 const PAGES: Record<string, () => JSX.Element> = {
+  componentes: Components,
   sheets: Sheets,
   menús: Menus,
   confirmaciones: Confirms,
@@ -14,7 +16,7 @@ const PAGES: Record<string, () => JSX.Element> = {
 
 const fromHash = () => {
   const name = decodeURIComponent(window.location.hash.slice(1));
-  return name in PAGES ? name : 'sheets';
+  return name in PAGES ? name : 'componentes';
 };
 
 export default function App() {
