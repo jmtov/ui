@@ -21,10 +21,10 @@
      popover se mantiene visible mientras dura la salida. */
   transform-origin: top right;
   transition:
-    opacity 140ms var(--transition-fn),
-    scale 140ms var(--transition-fn),
-    display 140ms allow-discrete,
-    overlay 140ms allow-discrete;
+    opacity var(--menu-duration) var(--transition-fn),
+    scale var(--menu-duration) var(--transition-fn),
+    display var(--menu-duration) allow-discrete,
+    overlay var(--menu-duration) allow-discrete;
 }
 
 .menu:not(:popover-open) {

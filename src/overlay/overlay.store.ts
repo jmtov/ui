@@ -1,7 +1,7 @@
 // Estado de las capas (diálogos, menús): qué hay abierto y en qué orden. Sin
 // JSX — quien lo dibuja es OverlayHost.
 import { createSignal } from 'solid-js';
-import { CLOSE_MS } from './overlay.constants';
+import { closeMs } from './overlay.constants';
 import type {
   ConfirmLayer,
   ConfirmOptions,
@@ -25,7 +25,7 @@ export function createOverlayStore(): OverlayStore {
     setOpen(false);
     setTimeout(
       () => setLayers((current) => current.filter((item) => item !== layer)),
-      CLOSE_MS,
+      closeMs(),
     );
   }
 

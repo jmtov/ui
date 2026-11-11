@@ -66,6 +66,15 @@
   --z-fixed: 20;
 
   --transition-fn: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Duración y curva de las capas (BottomSheet, menús, confirmaciones). Panel y
+     scrim usan las mismas, para que se muevan como un solo gesto; el desmontaje
+     de la capa (overlay.store) lee `--sheet-duration` de acá, así que cambiarla
+     en este lugar es todo lo que hace falta. La curva frena fuerte al final: con
+     poca duración se siente brusca, por eso 500ms. */
+  --sheet-duration: 500ms;
+  --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --menu-duration: 140ms;
   color-scheme: dark;
 }
 
@@ -73,4 +82,13 @@
    atributo, así que no hace falta pasar `stroke` en cada uso. */
 .tabler-icon {
   stroke-width: 1.5;
+}
+
+/* Con «reducir movimiento» las capas entran y salen sin animar (y el store las
+   desmonta al instante, porque lee la duración de acá). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sheet-duration: 0ms;
+    --menu-duration: 0ms;
+  }
 }
