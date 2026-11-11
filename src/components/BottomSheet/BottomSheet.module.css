@@ -1,6 +1,6 @@
 /* Root = popover invisible a pantalla completa (top layer, Esc y
-   light-dismiss del navegador; el [popover] ya es position: fixed). display
-   discreto para animar la salida. */
+   light-dismiss del navegador; el [popover] ya es position: fixed). Se oculta
+   cuando termina la animación de salida (ver BottomSheet.tsx: `data-state`). */
 .bsheet-root {
   inset: 0;
   width: 100%;
@@ -12,9 +12,6 @@
   padding: 0;
   background: transparent;
   overflow: visible;
-  transition:
-    display var(--sheet-duration) allow-discrete,
-    overlay var(--sheet-duration) allow-discrete;
 
   --content-width: clamp(400px, 80vw, 500px);
 }
@@ -50,7 +47,11 @@
      entrada va en el estado abierto. */
   transition: opacity var(--sheet-duration) var(--sheet-ease-exit);
 }
-.bsheet-root:popover-open .bsheet__scrim {
+/* Hijo directo (`>`), no descendiente: un sheet dentro de otro (el selector de
+   parlantes dentro del de Media Controls) tiene su panel DENTRO del root del
+   padre, y con el espacio heredaba el estado abierto del padre: aparecía ya en
+   su lugar, sin animar. */
+.bsheet-root[data-state="open"] > .bsheet__scrim {
   opacity: 1;
   transition-timing-function: var(--sheet-ease);
 }
@@ -85,7 +86,7 @@
   max-height: calc(100vh - env(safe-area-inset-top, 0px) - 2rem);
 }
 
-.bsheet-root:popover-open .bsheet {
+.bsheet-root[data-state="open"] > .bsheet {
   /* `none`, no `translateY(0)` — cualquier transform, aunque sea un
      no-op visual, crea containing block para los `position: fixed`
      descendientes. El menú "..." del header (MediaPlayerOptionsMenu) usa
@@ -98,10 +99,9 @@
      usa `--sheet-ease-exit`. */
   transition-timing-function: var(--sheet-ease);
 }
-@starting-style {
-  .bsheet-root:popover-open .bsheet {
-    transform: translateY(110%);
-  }
+/* Saliendo: la página de atrás ya responde, el sheet no atrapa toques. */
+.bsheet-root[data-state="closing"] {
+  pointer-events: none;
 }
 .bsheet--dragging {
   transition: none;
@@ -207,7 +207,7 @@
    contenido por encima, y el footer deja de ir pegado abajo, porque quedaría
    detrás del teclado. Sin teclado visible (mouse, teclado físico, o campo
    enfocado con el teclado ya cerrado) no se agrega nada. */
-.bsheet-root[data-keyboard] .bsheet__body {
+.bsheet-root[data-keyboard] > .bsheet > .bsheet__body {
   padding-bottom: var(--kb);
 }
 

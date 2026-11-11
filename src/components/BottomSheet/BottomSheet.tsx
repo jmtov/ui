@@ -22,6 +22,15 @@ import styles from './BottomSheet.module.css';
 
 const KEYBOARD_MIN_PX = 100;
 
+/** Duración de la transición del elemento según el CSS (0 si no hay o se pidió menos movimiento). */
+function transitionMs(element: HTMLElement): number {
+  const first =
+    getComputedStyle(element).transitionDuration.split(',')[0]?.trim() ?? '';
+  const value = Number.parseFloat(first);
+  if (!Number.isFinite(value)) return 0;
+  return first.endsWith('ms') ? value : value * 1000;
+}
+
 // Lo último que la hoja mostró estando abierta. Al cerrarse, quien la usa suele
 // vaciar de golpe título, íconos y contenido (porque ya no hay nada
 // seleccionado); sin esto la hoja saldría vacía y encogida. Con esto sale tal
@@ -109,33 +118,73 @@ export default function BottomSheet(props: {
     onCleanup(inertOutside(el));
   });
 
+  // La entrada y la salida las lleva `data-state` (open | closing), no
+  // `:popover-open`: el popover se queda abierto (en la capa superior) mientras
+  // dura la salida y recién después (al terminar su `transitionend`) se oculta. Así no depende de animar
+  // `display`/`overlay` con `allow-discrete`, que Safari/WebKit no soporta
+  // igual y el sheet desaparecía de golpe al cerrar.
+  let frame = 0;
   createEffect(() => {
     const el = rootRef();
     if (!el) return;
+    cancelAnimationFrame(frame);
     try {
       const isOpen = el.matches(':popover-open');
-      if (props.open && !isOpen) {
-        el.showPopover();
-        if (props.autofocus ?? true) {
-          // recién visible ahora (display:none hasta showPopover) — el
-          // focus antes de esto no agarra. Primer campo enfocable del
-          // contenido, sea lo que sea: no hace falta pasar un ref.
-          // `preventScroll`: el sheet recién abre con scrollTop 0, así que
-          // el primer campo ya es visible sin scrollear — el
-          // scroll-into-view automático de iOS no sabe cuánto tapa el
-          // teclado (el panel no se achica al abrirse, mismo motivo que el
-          // comentario sobre vh/dvh más abajo) y sobrestima cuánto
-          // scrollear, terminando por esconder el campo en vez de
-          // mostrarlo.
-          panelRef()
-            ?.querySelector<HTMLElement>('input, select, textarea')
-            ?.focus({ preventScroll: true });
+      if (props.open) {
+        if (!isOpen) {
+          el.showPopover();
+          if (props.autofocus ?? true) {
+            // recién visible ahora (display:none hasta showPopover) — el
+            // focus antes de esto no agarra. Primer campo enfocable del
+            // contenido, sea lo que sea: no hace falta pasar un ref.
+            // `preventScroll`: el sheet recién abre con scrollTop 0, así que
+            // el primer campo ya es visible sin scrollear — el
+            // scroll-into-view automático de iOS no sabe cuánto tapa el
+            // teclado (el panel no se achica al abrirse, mismo motivo que el
+            // comentario sobre vh/dvh más abajo) y sobrestima cuánto
+            // scrollear, terminando por esconder el campo en vez de
+            // mostrarlo.
+            panelRef()
+              ?.querySelector<HTMLElement>('input, select, textarea')
+              ?.focus({ preventScroll: true });
+          }
         }
-      } else if (!props.open && isOpen) el.hidePopover();
+        // Se fuerza el cálculo de estilo con el panel fuera de pantalla y recién
+        // después se pide el estado final, para que haya transición.
+        el.getBoundingClientRect();
+        frame = requestAnimationFrame(() => {
+          if (props.open) el.dataset.state = 'open';
+        });
+      } else if (isOpen && el.dataset.state !== 'closing') {
+        const panel = untrack(panelRef);
+        // Sin movimiento que esperar (nunca llegó a entrar, o «reducir
+        // movimiento» deja la duración en 0): no habría `transitionend`.
+        const animated =
+          el.dataset.state === 'open' && !!panel && transitionMs(panel) > 0;
+        el.dataset.state = 'closing';
+        const finish = () => {
+          if (props.open) return; // se volvió a abrir mientras salía
+          if (el.matches(':popover-open')) el.hidePopover();
+          delete el.dataset.state;
+        };
+        if (!animated || !panel) {
+          finish();
+        } else {
+          const onEnd = (event: TransitionEvent) => {
+            if (event.target !== panel || event.propertyName !== 'transform')
+              return;
+            finish();
+          };
+          panel.addEventListener('transitionend', onEnd);
+          // Si se vuelve a abrir (o se desmonta) antes de terminar, deja de escuchar.
+          onCleanup(() => panel.removeEventListener('transitionend', onEnd));
+        }
+      }
     } catch {
       /* popover no soportado (Safari viejo) */
     }
   });
+  onCleanup(() => cancelAnimationFrame(frame));
 
   // el navegador lo cierra solo (Esc / light-dismiss) -> sincronizar estado
   createEffect(() => {
