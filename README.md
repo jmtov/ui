@@ -24,6 +24,15 @@ Montar `<TooltipHost />` una vez en `App` (lo usan `Button` e `IconButton` con `
 - **Hooks:** `useDrag`, `useTap`.
 - **Íconos:** no hay; se usa `@tabler/icons-solidjs` directo (peer dependency). `tokens.css` fija su grosor en 1.5.
 
+## Playground
+
+```
+bun install
+bun run dev      # http://localhost:5173 (o el puerto libre que siga)
+```
+
+Compila directo desde `src/` (no pasa por `node_modules` de ninguna app, así que no hay caché de Vite que engañe ni hace falta publicar un tag para probar). Una página por familia de componentes en `playground/scenarios/`: sheets (simple, pantalla completa, con campo, contenido que se vacía al cerrar, montado solo mientras está abierto, anidado, abrir/cerrar rápido, `overlay.sheet`), menús y confirmaciones. Arriba hay controles para tunear en vivo las variables de duración y curva (`--sheet-duration`, `--sheet-ease`, `--sheet-ease-exit`, `--menu-duration`), cámara lenta y simular «reducir movimiento». Cuando un comportamiento tenga un caso nuevo (algo que falló en una app), súmalo como escenario. No se publica (`files` solo incluye `src`).
+
 ## Reglas
 
 - Tokens y qué variable va en cada cosa: [`DESIGN.md`](DESIGN.md).
