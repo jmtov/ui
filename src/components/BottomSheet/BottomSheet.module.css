@@ -45,7 +45,8 @@
   opacity: 0;
   /* Estado cerrado = salida: curva de salida (arranca suave y acelera). La de
      entrada va en el estado abierto. */
-  transition: opacity var(--sheet-duration) var(--sheet-ease-exit);
+  transition: opacity calc(var(--sheet-duration) * var(--sheet-exit-ratio))
+    var(--sheet-ease-exit);
 }
 /* Hijo directo (`>`), no descendiente: un sheet dentro de otro (el selector de
    parlantes dentro del de Media Controls) tiene su panel DENTRO del root del
@@ -53,6 +54,7 @@
    su lugar, sin animar. */
 .bsheet-root[data-state="open"] > .bsheet__scrim {
   opacity: 1;
+  transition-duration: var(--sheet-duration);
   transition-timing-function: var(--sheet-ease);
 }
 
@@ -73,7 +75,8 @@
   display: flex;
   flex-direction: column;
   transform: translateY(110%);
-  transition: transform var(--sheet-duration) var(--sheet-ease-exit);
+  transition: transform calc(var(--sheet-duration) * var(--sheet-exit-ratio))
+    var(--sheet-ease-exit);
 }
 
 /* Ocupa toda la pantalla salvo un margen arriba (affordance de "hay algo
@@ -94,6 +97,7 @@
      panel (transformado), calculaba mal su posición y
      terminaba invisible/mal ubicado en vez de anclado al botón. */
   transform: none;
+  transition-duration: var(--sheet-duration);
   /* Entrada: frena fuerte al llegar. Para salir esa misma curva dispara el
      panel (casi todo el recorrido en los primeros ~150 ms), así que la salida
      usa `--sheet-ease-exit`. */

@@ -39,6 +39,31 @@ function Row(props: { label: string; name: string; min: number; max: number }) {
   );
 }
 
+function RatioRow() {
+  const [value, setValue] = createSignal(
+    Number.parseFloat(read('--sheet-exit-ratio')),
+  );
+  return (
+    <>
+      <label for="--sheet-exit-ratio">Salida = ×</label>
+      <input
+        id="--sheet-exit-ratio"
+        type="range"
+        min={0.1}
+        max={1.5}
+        step={0.05}
+        value={value()}
+        onInput={(e) => {
+          const ratio = Number(e.currentTarget.value);
+          setValue(ratio);
+          set('--sheet-exit-ratio', String(ratio));
+        }}
+      />
+      <output>×{value().toFixed(2)}</output>
+    </>
+  );
+}
+
 function EaseRow(props: { label: string; name: string }) {
   const [value, setValue] = createSignal(read(props.name));
   return (
@@ -68,6 +93,7 @@ export default function Tuning() {
         {() => (
           <div class="pg__tuning">
             <Row label="Sheet" name="--sheet-duration" min={0} max={1500} />
+            <RatioRow />
             <Row label="Menú" name="--menu-duration" min={0} max={600} />
             <EaseRow label="Entrada" name="--sheet-ease" />
             <EaseRow label="Salida" name="--sheet-ease-exit" />
@@ -110,6 +136,7 @@ export default function Tuning() {
               '--menu-duration',
               '--sheet-ease',
               '--sheet-ease-exit',
+              '--sheet-exit-ratio',
             ]) {
               root.style.removeProperty(name);
             }

@@ -75,6 +75,9 @@
   --sheet-duration: 500ms;
   --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --sheet-ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
+  /* La salida dura esta fracción de la entrada (0.5 = la mitad): irse se siente
+     más ágil que llegar. */
+  --sheet-exit-ratio: 0.5;
   --menu-duration: 140ms;
   color-scheme: dark;
 }
