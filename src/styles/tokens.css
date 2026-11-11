@@ -74,6 +74,7 @@
      poca duración se siente brusca, por eso 500ms. */
   --sheet-duration: 500ms;
   --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --sheet-ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
   --menu-duration: 140ms;
   color-scheme: dark;
 }

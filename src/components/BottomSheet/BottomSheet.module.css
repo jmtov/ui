@@ -46,10 +46,13 @@
   /* un gesto sobre el fondo no mueve la página de atrás */
   touch-action: none;
   opacity: 0;
-  transition: opacity var(--sheet-duration) var(--sheet-ease);
+  /* Estado cerrado = salida: curva de salida (arranca suave y acelera). La de
+     entrada va en el estado abierto. */
+  transition: opacity var(--sheet-duration) var(--sheet-ease-exit);
 }
 .bsheet-root:popover-open .bsheet__scrim {
   opacity: 1;
+  transition-timing-function: var(--sheet-ease);
 }
 
 .bsheet {
@@ -69,7 +72,7 @@
   display: flex;
   flex-direction: column;
   transform: translateY(110%);
-  transition: transform var(--sheet-duration) var(--sheet-ease);
+  transition: transform var(--sheet-duration) var(--sheet-ease-exit);
 }
 
 /* Ocupa toda la pantalla salvo un margen arriba (affordance de "hay algo
@@ -90,6 +93,10 @@
      panel (transformado), calculaba mal su posición y
      terminaba invisible/mal ubicado en vez de anclado al botón. */
   transform: none;
+  /* Entrada: frena fuerte al llegar. Para salir esa misma curva dispara el
+     panel (casi todo el recorrido en los primeros ~150 ms), así que la salida
+     usa `--sheet-ease-exit`. */
+  transition-timing-function: var(--sheet-ease);
 }
 @starting-style {
   .bsheet-root:popover-open .bsheet {
