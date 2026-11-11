@@ -1,9 +1,12 @@
 import {
+  children,
+  createComputed,
   createEffect,
   createSignal,
   type JSX,
   onCleanup,
   Show,
+  untrack,
 } from 'solid-js';
 import { useBottomSheet } from '../../hooks/useBottomSheet/useBottomSheet';
 import { inertOutside } from '../../inert/inertOutside';
@@ -18,6 +21,21 @@ import styles from './BottomSheet.module.css';
 // Copiado de ha-pwa (components/BottomSheet), mismo patrón base.
 
 const KEYBOARD_MIN_PX = 100;
+
+// Lo último que la hoja mostró estando abierta. Al cerrarse, quien la usa suele
+// vaciar de golpe título, íconos y contenido (porque ya no hay nada
+// seleccionado); sin esto la hoja saldría vacía y encogida. Con esto sale tal
+// como estaba. Se actualiza solo mientras `open` es true.
+function retainWhileOpen<T>(open: () => boolean, value: () => T): () => T {
+  const [kept, setKept] = createSignal<T>(untrack(value));
+  createComputed(() => {
+    if (open()) {
+      const next = value();
+      setKept(() => next);
+    }
+  });
+  return kept;
+}
 
 export default function BottomSheet(props: {
   open: boolean;
@@ -36,6 +54,23 @@ export default function BottomSheet(props: {
   const [rootRef, setRootRef] = createSignal<HTMLElement>();
   const [panelRef, setPanelRef] = createSignal<HTMLElement>();
   const [handleRef, setHandleRef] = createSignal<HTMLElement>();
+
+  const isOpen = () => props.open;
+  const title = retainWhileOpen(isOpen, () => props.title);
+  const subtitle = retainWhileOpen(isOpen, () => props.subtitle);
+  const fullScreen = retainWhileOpen(isOpen, () => props.fullScreen);
+  const icon = retainWhileOpen(
+    isOpen,
+    children(() => props.icon),
+  );
+  const headerRight = retainWhileOpen(
+    isOpen,
+    children(() => props.headerRight),
+  );
+  const body = retainWhileOpen(
+    isOpen,
+    children(() => props.children),
+  );
 
   const drag = useBottomSheet({
     handle: handleRef,
@@ -119,7 +154,7 @@ export default function BottomSheet(props: {
       ref={setRootRef}
       popover="manual"
       class={styles['bsheet-root']}
-      aria-label={props.title}
+      aria-label={title()}
       data-keyboard={keyboard() > 0 ? '' : undefined}
       style={keyboard() > 0 ? { '--kb': `${keyboard()}px` } : undefined}
     >
@@ -134,7 +169,7 @@ export default function BottomSheet(props: {
         class={styles.bsheet}
         classList={{
           [styles['bsheet--dragging']]: drag.dragging(),
-          [styles['bsheet--fullscreen']]: props.fullScreen,
+          [styles['bsheet--fullscreen']]: fullScreen(),
         }}
         style={
           drag.dragging()
@@ -145,23 +180,23 @@ export default function BottomSheet(props: {
         <div ref={setHandleRef} class={styles.bsheet__handle}>
           <div class={styles.bsheet__grabber} />
           <div class={styles.bsheet__bar}>
-            <Show when={props.icon}>
-              <span class={styles.bsheet__icon}>{props.icon}</span>
+            <Show when={icon()}>
+              <span class={styles.bsheet__icon}>{icon()}</span>
             </Show>
             <div class={styles.bsheet__titles}>
-              <Show when={props.title}>
-                <h3 class={styles.bsheet__title}>{props.title}</h3>
+              <Show when={title()}>
+                <h3 class={styles.bsheet__title}>{title()}</h3>
               </Show>
-              <Show when={props.subtitle}>
-                <p class={styles.bsheet__subtitle}>{props.subtitle}</p>
+              <Show when={subtitle()}>
+                <p class={styles.bsheet__subtitle}>{subtitle()}</p>
               </Show>
             </div>
-            <Show when={props.headerRight}>
-              <span class={styles.bsheet__aside}>{props.headerRight}</span>
+            <Show when={headerRight()}>
+              <span class={styles.bsheet__aside}>{headerRight()}</span>
             </Show>
           </div>
         </div>
-        <div class={styles.bsheet__body}>{props.children}</div>
+        <div class={styles.bsheet__body}>{body()}</div>
       </div>
     </section>
   );

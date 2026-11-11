@@ -32,6 +32,7 @@ export { default as TooltipHost } from './components/TooltipHost/TooltipHost';
 export { useDrag } from './hooks/useDrag/useDrag';
 export { useTap } from './hooks/useTap/useTap';
 export { default as OverlayProvider } from './overlay/OverlayProvider';
+export { closeMs as sheetCloseMs } from './overlay/overlay.constants';
 export type {
   ConfirmOptions,
   OverlayApi,
